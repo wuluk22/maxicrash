@@ -13,76 +13,7 @@
 #include "minishell.h"
 #include <readline/readline.h>
 
-static char	*spacing(char *args)
-{
-	int		i;
-	int		j;
-	char	*result;
-
-	i = 0;
-	j = 0;
-	result = NULL;
-	while (args[i])
-		i++;
-	result = malloc((2 * i + 1) * sizeof(char));
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (args[i])
-	{
-		if ((args[i] == '\'' || args[i] == '\"'))
-		{
-			result[j++] = ' ';
-			result[j++] = args[i];
-			result[j++] = ' ';
-		}
-		else
-			result[j++] = args[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
-}
-
-static char	*dollar(char *args)
-{
-	int		i;
-	int		j;
-	char	*result;
-
-	i = 0;
-	j = 0;
-	result = NULL;
-	while (args[i])
-		i++;
-	result = malloc((3 * i + 1) * sizeof(char));
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (args[i])
-	{
-		if ((args[i] == '$' && args[i-1] == '\''))
-		{
-			result[j++] = args[i];
-			i++;
-			while (args[i] != '\'')
-				result[j++] = args[i++];
-		}
-		if ((args[i] == '$' || args[i] == '=') && args[i-1] != '\'')
-		{
-			result[j++] = ' ';
-			result[j++] = args[i];
-			result[j++] = ' ';
-		}
-		else
-			result[j++] = args[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
-}
-
-static t_lexer	*ft_parser(t_lexer *list)
+/*static t_lexer	*ft_parser(t_lexer *list)
 {
 	t_lexer	*head;
 
@@ -104,7 +35,7 @@ static t_lexer	*ft_parser(t_lexer *list)
 		list = list->next;
 	}
 	return (head);
-}
+}*/
 
 void	minishell_loop(char *line, char **envp)
 {
@@ -125,20 +56,24 @@ void	minishell_loop(char *line, char **envp)
 		if (!ft_check_quote(line))
 			write(2, "Error\n", 6);
 		args = &line;
-		*args = (dollar(*args));
-		*args = (spacing(*args));
-		//printf("ff---%s\n", *args);
-		args = ft_split(*args, ' ');
+		args = ft_split(*args, '|');
+
 		list = ft_lexero(args, list);
+		exec = ft_dispatch(exec, list->str);
+		command_executer(envp, list, exec);
+
+		/*
 		ft_lexer(list);
 		ft_parser(list);
-		exec = ft_dispatch(exec, list);
-		command_executer(envp, list, exec);
-		/*while (list)
+		*/
+
+
+
+		while (list)
 		{
-			printf("f0ff----%s----|----%d----|----%c----\n", list->str, list->i, list->chr);
+			printf("f0ff----%s----|----%d----|----%s----\n", list->str, list->i, list->chr);
 			list = list->next;
-		}*/
+		}
 		free(line);
 		free(args);
 		line = NULL;

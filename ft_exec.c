@@ -28,13 +28,16 @@ int	ft_meta(char *c)
 		return (0);
 }
 
-void	execute_command(char **envp, t_lexer *list, t_pipex exec)
+void	execute_command(char **envp, char *args, t_pipex exec)
 {
 	pid_t	pid;
 	int		status;
+	char	**arg;
 
 	pid = fork();
 	(void)envp;
+	arg = ft_split(args, ' ');
+	printf("---%s\n", *arg);
 	if (pid == -1)
 	{
 		perror("fork");
@@ -42,46 +45,13 @@ void	execute_command(char **envp, t_lexer *list, t_pipex exec)
 	}
 	else if (pid == 0)
 	{
-		while (list)
+		while (arg)
 		{
-			if (strcmp(list->chr, "c") == 0)
+			if (execve(exec.cmd, arg, NULL) == -1)
 			{
-				
-				//printf("ttt----%s----%s----\n", exec.cmd, list->next->str);
-				if (!list->next)
-				{
-					char	*argss[] = {exec.cmd, NULL};
-					//printf("1-ttt----%s----%s----\n", exec.cmd, list->str);
-					if (execve(exec.cmd, argss, NULL) == -1)
-					{
-						perror("Error executing command");
-						exit(EXIT_FAILURE);
-					}
-				}
-				else if (list->next->str && list->next->next == NULL)
-				{
-					char	*args[] = {exec.cmd, list->next->str, NULL};
-					//printf("2-ttt----%s----%s----\n", exec.cmd, list->str);
-					if (execve(exec.cmd, args, NULL) == -1)
-					{
-						perror("Error executing command");
-						exit(EXIT_FAILURE);
-					}
-					list = list->next;
-				}
-				else if (list->next->chr && list->next->next->str)
-				{
-					char	*argsss[] = {list->str, list->next->str, list->next->next->str, NULL};
-					//printf("4-ttt----%s----%s----\n", exec.cmd, list->str);
-					if (execve(exec.cmd, argsss, NULL) == -1)
-					{
-						perror("Error executing command");
-						exit(EXIT_FAILURE);
-					}
-					list = list->next->next;
-				}
+				perror("Error executing command");
+				exit(EXIT_FAILURE);
 			}
-			list = list->next;
 		}
 	}
 	else
@@ -140,7 +110,7 @@ void	command_executer(char **envp, t_lexer *list, t_pipex exec)
 	i = 0;
 	if (list_parkour(list) >= 1)
 	{
-		ft_multi_pipe(list, envp, 0, 0);
+		//ft_multi_pipe(list, envp, 0, 0);
 		// dup2(1, 0);
 		// while (i < 3)
 		// {
@@ -151,7 +121,7 @@ void	command_executer(char **envp, t_lexer *list, t_pipex exec)
 		//list = list->next;
 	}
 	else
-		execute_command(envp, list, exec);
+		execute_command(envp, list->str, exec);
 	
 	//char	*arg1;
 	//char	*arg2;

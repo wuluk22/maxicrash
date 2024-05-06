@@ -23,19 +23,18 @@ endef
 NAME    = minishell
 SRC     = minishell.c\
             ft_lexer.c\
-            ft_exec.c\
             ft_free.c\
 			ft_lstadd_back.c\
 			ft_lstlast.c\
 			ft_lstnew.c\
-			ft_redirect.c\
 			ft_signals.c\
 			ft_str_utils.c\
 			lexer.c\
-			ft_input_red.c\
+			ft_exec.c\
 			ft_append.c\
 			ft_heredoc.c\
-			ft_multi_pipe.c\
+			ft_input_red.c\
+			ft_redirect.c\
 			ft_str_utils_s.c	
 OBJ     = $(SRC:.c=.o)
 CC      = gcc

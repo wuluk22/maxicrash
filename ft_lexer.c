@@ -95,22 +95,19 @@ static int is_command_valid(const char *command)
     return (result);
 }
 
-t_pipex	ft_dispatch(t_pipex exec, t_lexer *list)
+t_pipex	ft_dispatch(t_pipex exec, char *arg)
 {
-	t_lexer	*head;
-
-	head = NULL;
-	while (list)
+	char	**args;
+	args = ft_split(arg, ' ');
+	if (arg)
 	{
 		//printf("pp----%s----\n", *pipex.cmd_paths);
-		if (is_command_valid(list->str))
+		if (is_command_valid(args[0]))
 		{
-			list->chr = "c";
-			exec.cmd_args = &list->str;
+			exec.cmd_args = &args[0];
 			exec.cmd = parsing(exec.cmd_paths, *exec.cmd_args);
 			//printf("pc----%s----\n", exec.cmd);
 		}
-		list = list->next;
 	}
 	return (exec);
 }

@@ -64,7 +64,7 @@ void		ft_multi_pipe(t_lexer *list, char **envp, int i, int len);
 void		ft_first_iter(char *args[], char *meta, char *envp[]);
 int			ft_meta(char *c);
 int			list_parkour(t_lexer *list);
-void		execute_command(char **envp, t_lexer *list, t_pipex exec);
+void		execute_command(char **envp, char *args, t_pipex exec);
 void		ft_redir(char *args[], char *envp[]);
 void		ft_input(char *args[], char *envp[]);
 void		ft_append(char *args[], char *envp[]);
@@ -80,7 +80,7 @@ void		ft_set_input_signals(void);
 
 //---------------------------------LEXER----------------------------------//
 t_lexer		*ft_lexero(char **args, t_lexer *list);
-t_pipex		ft_dispatch(t_pipex exec, t_lexer *list);
+t_pipex		ft_dispatch(t_pipex exec, char *arg);
 void		ft_lexer(t_lexer *list);
 bool		ft_check_quote(char *str);
 
