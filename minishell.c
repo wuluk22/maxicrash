@@ -60,7 +60,7 @@ void	minishell_loop(char *line, char **envp)
 
 		list = ft_lexero(args, list);
 		exec = ft_dispatch(exec, list->str);
-		command_executer(envp, list, exec);
+		command_executer(args, envp, list, exec);
 
 		/*
 		ft_lexer(list);
@@ -69,17 +69,18 @@ void	minishell_loop(char *line, char **envp)
 
 
 
-		while (list)
+		/*while (list)
 		{
 			printf("f0ff----%s----|----%d----|----%s----\n", list->str, list->i, list->chr);
 			list = list->next;
-		}
+		}*/
 		free(line);
-		free(args);
+		//free(args);
+		args = NULL;
 		line = NULL;
 //		if (strcmp(list.cmd, "exit") == 0)
 //			break ;
-	//	system("leaks ./minishell");
+//		system("leaks ./minishell");
 	}
 }
 

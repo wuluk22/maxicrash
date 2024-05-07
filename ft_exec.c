@@ -37,7 +37,7 @@ void	execute_command(char **envp, char *args, t_pipex exec)
 	pid = fork();
 	(void)envp;
 	arg = ft_split(args, ' ');
-	printf("---%s\n", *arg);
+	//printf("---%s\n", *arg);
 	if (pid == -1)
 	{
 		perror("fork");
@@ -103,14 +103,31 @@ int	ft_stacklen(t_lexer *list)
 	return (i);
 }
 
-void	command_executer(char **envp, t_lexer *list, t_pipex exec)
+void	command_executer(char **args, char **envp, t_lexer *list, t_pipex exec)
 {
-	int	i;
+	int		i;
+	//int		j;
+	//char	**args;
 
 	i = 0;
-	if (list_parkour(list) >= 1)
+	//j = 0;
+	//args = NULL;
+	if (list->next)
 	{
-		//ft_multi_pipe(list, envp, 0, 0);
+		//printf("!\n");
+		while (args[i])
+		{
+			//printf("1\n");
+			//args[j] = ft_strdup(list->str);
+			//printf("3\n");
+			i++;
+			//args++;
+			//list = list->next;
+			//printf("2\n");
+		}
+		//i++;
+		ft_multi_pipe(i, args, envp);
+		//printf("---%d---%s\n", i, args[0]);
 		// dup2(1, 0);
 		// while (i < 3)
 		// {

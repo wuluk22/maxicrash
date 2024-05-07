@@ -35,10 +35,14 @@ SRC     = minishell.c\
 			ft_heredoc.c\
 			ft_input_red.c\
 			ft_redirect.c\
+			pipex_bonus.c\
+			pipex_utls_bonus.c\
+			get_next_line.c\
+			get_next_line_utils.c\
 			ft_str_utils_s.c	
 OBJ     = $(SRC:.c=.o)
 CC      = gcc
-CFLAGS  = -Wall -Werror -Wextra
+CFLAGS  = -g -Wall -Werror -Wextra
 COMP    = $(CC) $(CFLAGS)
 RM      = rm -f
 DIR_INC = -Ift_pipex/

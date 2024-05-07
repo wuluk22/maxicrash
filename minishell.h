@@ -21,7 +21,14 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 # include "ft_pipex/pipex.h"
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10 
+# endif
+
 
 enum e_token
 {
@@ -57,10 +64,18 @@ typedef struct s_lexer
 	struct s_lexer		*next;
 }	t_lexer;
 
+
+typedef struct s_list
+{
+	char			*str_buf;
+	struct s_list	*next;
+}				t_list;
+
 //void		rl_replace_line(const char *text, int clear_undo);
 //-------------------------------EXECUTION--------------------------------//
-void		command_executer(char **envp, t_lexer *list, t_pipex exec);
-void		ft_multi_pipe(t_lexer *list, char **envp, int i, int len);
+void		command_executer(char **args, char **envp, t_lexer *list, t_pipex exec);
+void		ft_multi_pipe(int argc, char **argv, char **envp);
+char		*get_path(char *cmd, char **envp);
 void		ft_first_iter(char *args[], char *meta, char *envp[]);
 int			ft_meta(char *c);
 int			list_parkour(t_lexer *list);
@@ -69,6 +84,20 @@ void		ft_redir(char *args[], char *envp[]);
 void		ft_input(char *args[], char *envp[]);
 void		ft_append(char *args[], char *envp[]);
 void		ft_heredoc(char *args[], char *envp[]);
+
+int			found_newline(t_list *list);
+t_list		*find_last_node(t_list *list);
+char		*get_line(t_list *list);
+void		str_copy(t_list *list, char *str);
+int			len_newline(t_list *list);
+void		polish_list(t_list **list);
+char		*get_next_line(int fd);
+void		dealloc(t_list **list, t_list *clean_node, char *buff);
+void		create_list(t_list **list, int fd);
+int	open_file(char *file, int in_out, char **argv, char **envp);
+char	*ft_strnstr(const char *find, const char *to_find, size_t len);
+
+
 
 //--------------------------------LOOPING---------------------------------//
 void		minishell_loop(char *line, char **envp);
