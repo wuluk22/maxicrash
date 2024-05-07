@@ -140,3 +140,44 @@ void		*ft_memcpy(void *dst, const void *src, size_t n);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 
 #endif
+
+
+
+void tokenize(char *cmd, t_lexer **list) {
+    char *token_start = cmd;
+    char *current = cmd;
+    char buffer[3] = {0};
+
+    while (*current != '\0') {
+        if (strncmp(current, "<<", 2) == 0 || strncmp(current, ">>", 2) == 0) {
+            if (current != token_start) {
+                *current = '\0';
+                add_token(list, token_start);
+            }
+            if (strncmp(current, "<<", 2) == 0)
+                add_token(list, "<<");
+            if (strncmp(current, ">>", 2) == 0)
+                add_token(list, ">>");
+
+            current += 2;
+            token_start = current;
+        }
+        else if (*current == '<' || *current == '>') {
+            if (current != token_start) {
+                *current = '\0';
+                add_token(list, token_start);
+            }
+            buffer[0] = *current;
+            add_token(list, buffer);
+            current++;
+            token_start = current;
+        }
+        else {
+            current++;
+        }
+    }
+
+    if (current != token_start) {
+        add_token(list, token_start);
+    }
+}
