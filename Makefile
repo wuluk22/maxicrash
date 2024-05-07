@@ -39,6 +39,7 @@ SRC     = minishell.c\
 			pipex_utls_bonus.c\
 			get_next_line.c\
 			get_next_line_utils.c\
+			ft_meta_mgmt.c\
 			ft_str_utils_s.c	
 OBJ     = $(SRC:.c=.o)
 CC      = gcc

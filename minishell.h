@@ -22,7 +22,9 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <string.h>
 # include <sys/wait.h>
+
 # include "ft_pipex/pipex.h"
 
 # ifndef BUFFER_SIZE
@@ -56,6 +58,7 @@ enum e_state
 typedef struct s_lexer
 {
 	char				*str;
+	char				*token;
 	char				*chr;
 	int					i;
 //	enum				e_token;
@@ -96,6 +99,8 @@ void		dealloc(t_list **list, t_list *clean_node, char *buff);
 void		create_list(t_list **list, int fd);
 int	open_file(char *file, int in_out, char **argv, char **envp);
 char	*ft_strnstr(const char *find, const char *to_find, size_t len);
+
+void		ft_meta_mgmt(char *cmd, char **envp);
 
 
 
