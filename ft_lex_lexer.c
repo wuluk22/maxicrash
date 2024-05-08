@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-bool	ft_check_quote(char *str)
+/*bool	ft_check_quote(char *str)
 {
 	int		i;
 	bool	double_flag;
@@ -36,7 +36,27 @@ bool	ft_check_quote(char *str)
 	double_flag = !in_double_quotes;
 	single_flag = !in_single_quotes;
 	return (double_flag && single_flag);
+}*/
+
+#define DOUBLE_QUOTE '\"'
+#define SINGLE_QUOTE '\''
+
+bool ft_check_quote(char *str) {
+    int i = 0;
+    bool in_quotes = false;
+	if (str)
+	{
+    	while (str[i]) {
+        	if (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE) {
+        	    in_quotes = !in_quotes;
+        	}
+        	i++;
+    	}
+	}
+
+    return !in_quotes; // Return true if quotes are balanced, false otherwise
 }
+
 
 static bool	ft_lexer_token(char c)
 {

@@ -50,17 +50,24 @@ void	minishell_loop(char *line, char **envp)
 	exec.paths = find_path(envp, &exec);
 	exec.cmd_paths = ft_split(exec.paths, ':');
 	exec.cmd = NULL;
-	while ((line = readline("minishell>>")) != NULL)
+	while (1)
 	{
+		line = readline("minishell>>");
 		add_history(line);
 		if (!ft_check_quote(line))
+		{
 			write(2, "Error\n", 6);
+			free(line);
+		}
 		args = &line;
 		args = ft_split(*args, '|');
 
 		list = ft_lexero(args, list);
-		exec = ft_dispatch(exec, list->str);
-		command_executer(args, envp, list, exec);
+		if (list)
+		{
+			exec = ft_dispatch(exec, list->str);
+			command_executer(args, envp, list, exec);
+		}
 
 		/*
 		ft_lexer(list);
@@ -74,6 +81,7 @@ void	minishell_loop(char *line, char **envp)
 			printf("f0ff----%s----|----%d----|----%s----\n", list->str, list->i, list->chr);
 			list = list->next;
 		}*/
+		free(list);
 		free(line);
 		//free(args);
 		args = NULL;
@@ -90,6 +98,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argc;
 	(void)argv;
+	line = malloc(sizeof(char *));
 	line = NULL;
 	//signal_handler2(SIGINT);
 	minishell_loop(line, envp);

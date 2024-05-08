@@ -69,7 +69,7 @@ void	ft_redir(char *args[], char *envp[])
 	t_pipex	redir;
 
 	redir.infile = 0;
-	redir.outfile = open(args[1], O_CREAT | O_RDWR | O_TRUNC, 0777);
+	redir.outfile = open(args[2], O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (pipe(redir.tube) < 0)
 	{
 		error();

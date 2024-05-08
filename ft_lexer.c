@@ -20,19 +20,22 @@ t_lexer	*ft_lexero(char **args, t_lexer *list)
 
 	head = NULL;
 	i = 0;
-	while (args[i] != NULL)
+	if (args)
 	{
-		elem = ft_lstnew(args[i]);
-		elem->i = i;
-		elem->chr = "w";
-		if (!elem)
-			return (NULL);
-		if (!head)
-			head = elem;
-		else
-			ft_lstadd_back(&list, elem);
-		list = elem;
-		i++;
+		while (args[i] != NULL)
+		{
+			elem = ft_lstnew(args[i]);
+			elem->i = i;
+			elem->chr = "w";
+			if (!elem)
+				return (NULL);
+			if (!head)
+				head = elem;
+			else
+				ft_lstadd_back(&list, elem);
+			list = elem;
+			i++;
+		}
 	}
 	return (head);
 }

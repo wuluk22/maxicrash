@@ -22,7 +22,7 @@ int	list_parkour_str(char *list)
 
 	i = 0;
 	j = 0;
-	while (list)
+	while (*list != '\0')
 	{
 		if (ft_meta_str(*list) > 0)
 		{
