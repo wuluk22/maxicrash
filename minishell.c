@@ -50,9 +50,12 @@ void	minishell_loop(char *line, char **envp)
 	exec.paths = find_path(envp, &exec);
 	exec.cmd_paths = ft_split(exec.paths, ':');
 	exec.cmd = NULL;
+//	signal(SIGCHLD, SIG_IGN);
 	while (1)
 	{
 		line = readline("minishell>>");
+		if (!line)
+			break ;
 		add_history(line);
 		if (!ft_check_quote(line))
 		{

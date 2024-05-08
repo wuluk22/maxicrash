@@ -81,6 +81,24 @@ int	list_parkour(t_lexer *list)
 	return (i);
 }
 
+static int	list_parkour_init(t_lexer *list)
+{
+	t_lexer	*head;
+	int		i;
+
+	head = NULL;
+	i = 0;
+	while (list)
+	{
+		head = list;
+		if (ft_meta(list->str) > 0)
+			i++;
+		list = list->next;
+	}
+	list = head;
+	return (i);
+}
+
 void	ft_first_iter(char *args[], char *envp[])
 {
 	if (ft_meta(args[1]) == 1)
@@ -110,89 +128,116 @@ int	ft_stacklen(t_lexer *list)
 
 void	command_executer(char **args, char **envp, t_lexer *list, t_pipex exec)
 {
-	int		i;
-	//int		j;
-	//char	**args;
+	int	i;
 
 	i = 0;
-	//j = 0;
-	//args = NULL;
-	if (list->next)
+
+	if(list_parkour_init(list) > 0)
 	{
-		//printf("!\n");
 		while (args[i])
-		{
-			//printf("1\n");
-			//args[j] = ft_strdup(list->str);
-			//printf("3\n");
 			i++;
-			//args++;
-			//list = list->next;
-			//printf("2\n");
-		}
-		//i++;
 		ft_multi_pipe(i, args, envp);
-		//printf("---%d---%s\n", i, args[0]);
-		// dup2(1, 0);
-		// while (i < 3)
-		// {
-		// 	ft_multi_pipe(list, envp, i, ft_stacklen(list));
-		// 	//list = list->next;
-		// 	i++;
-		// }
-		//list = list->next;
 	}
 	else
 		execute_command(envp, list->str, exec);
-	
-	//char	*arg1;
-	//char	*arg2;
-	//char	*meta;
-	//arg1 = NULL;
-	//arg2 = NULL;
-//
-	//char	*args[2];
-//
-	//(void)envp;
-	/*if (list_parkour(list) >= 1)
+}
+
+
+
+/*static int	list_parkour_str_v(char **list)
+{
+	int	i;
+	int	j;
+	int meta;
+
+	i = 0;
+	j = 0;
+	meta = 0;
+	while (**list != '\0')
+	{
+		if (ft_meta_str(**list) > 0)
+		{
+			if (ft_meta_str(**list) == 1)
+				meta = 1;
+			else if (ft_meta_str(**list) == 2)
+				meta = 2;
+			else if (ft_meta_str(**list) == 3)
+				meta = 3;
+			i++;
+		}
+		list++;
+	}
+	return (meta);
+}
+
+static int	list_parkour_strstr(char **list)
+{
+	int	i;
+	int	j;
+	int meta;
+
+	i = 0;
+	j = 0;
+	meta = 0;
+	while (**list != '\0')
+	{
+		printf("-1-\n");
+		if (ft_meta_str(**list) > 0)
+		{
+			printf("-2-\n");
+			if (ft_meta_str(**list) == 1)
+				meta = 1;
+			else if (ft_meta_str(**list) == 2)
+				meta = 2;
+			else if (ft_meta_str(**list) == 3)
+					meta = 3;
+			printf("-4-\n");
+			i++;
+		}
+		printf("-5-\n");
+		list++;
+	}
+	return (i);
+}
+void	ft_meta_mgmt_first(char *cmd, char **envp)
+{
+	printf("---cmd---%s\n", cmd);
+	int		i;
+
+	i = 0;
+	t_lexer	*list;
+
+	list = NULL;
+
+	char	*args[100]; // max files ??? 
+	int		arg_count;
+	arg_count = 0;
+
+	(void)envp;
+	//printf("2-2\n");
+	tokenize(cmd, &list);
+	//printf("1-1\n");
+	print_list(list);
+	if (list_parkour(list) >= 1)
 	{
 		while (list)
 		{
-			while (list && ft_meta(list->chr) == 0)
+			if (list && ft_meta(list->token) == 0)
 			{
 				//printf("jaaaaa\n");
-				if (!arg1)
-					arg1 = list->str;
-				else
-				{
-					arg1 = ft_strjoin(arg1, " ");
-					arg1 = ft_strjoin(arg1, list->str);
-				}
+				if (arg_count <= 100)
+					args[arg_count++] = list->str;
 				list = list->next;
 			}
-			//printf("----%s----\n", arg1);
-			if (list && ft_meta(list->chr) > 0)
+			else if (list && ft_meta(list->token) > 0)
 			{
-				meta = list->chr;
-				list = list->next;
-				//printf("--%s\n", list->str);
-			}
-			while (list && ft_meta(list->chr) == 0)
-			{
-				if (!arg2)
-					arg2 = list->str;
-				else
-				{
-					arg2 = ft_strjoin(arg2, " ");
-					arg2 = ft_strjoin(arg2, list->str);
-				}
+				list->chr = "m";
+				args[arg_count++] = list->str;
 				list = list->next;
 			}
-			args[0] = arg1;
-			args[1] = arg2;
-			printf("yooo----%s----%s----\n", args[0], args[1]);
-			ft_first_iter(args, meta, envp);
-
+			printf("arg%d = %s\n", i, args[i]);
+			i++;
 		}
-	}*/
-}
+		ft_first_iter(args, envp);
+	}
+}*/

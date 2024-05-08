@@ -11,6 +11,8 @@ int	ft_meta_str(char c)
 		return (1);
 	else if (c == '>')
 		return (2);
+	else if (c == '|')
+		return (3);
 	else
 		return (0);
 }
@@ -19,18 +21,24 @@ int	list_parkour_str(char *list)
 {
 	int	i;
 	int	j;
+	int meta;
 
 	i = 0;
 	j = 0;
+	meta = 0;
 	while (*list != '\0')
 	{
 		if (ft_meta_str(*list) > 0)
 		{
+			if (ft_meta_str(*list) == 1)
+				meta = 1;
+			else if (ft_meta_str(*list) == 2)
+				meta = 2;
+			else if (ft_meta_str(*list) == 3)
+				meta = 3;
 			i++;
 		}
 		list++;
-		if (i >= 1)
-			return (i);
 	}
 	return (i);
 }
