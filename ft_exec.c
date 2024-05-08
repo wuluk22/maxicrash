@@ -34,28 +34,33 @@ void	execute_command(char **envp, char *args, t_pipex exec)
 	int		status;
 	char	**arg;
 
-	pid = fork();
-	(void)envp;
-	arg = ft_split(args, ' ');
-	//printf("---%s\n", *arg);
-	if (pid == -1)
+	if (list_parkour_str(args) >= 1)
+		ft_meta_mgmt(args, envp);
+	else
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		while (arg)
+		pid = fork();
+		(void)envp;
+		arg = ft_split(args, ' ');
+		//printf("---%s\n", *arg);
+		if (pid == -1)
 		{
-			if (execve(exec.cmd, arg, NULL) == -1)
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
+		{
+			while (arg)
 			{
-				perror("Error executing command");
-				exit(EXIT_FAILURE);
+				if (execve(exec.cmd, arg, NULL) == -1)
+				{
+					perror("Error executing command");
+					exit(EXIT_FAILURE);
+				}
 			}
 		}
+		else
+			wait(&status);
 	}
-	else
-		wait(&status);
 }
 
 int	list_parkour(t_lexer *list)
@@ -68,7 +73,7 @@ int	list_parkour(t_lexer *list)
 	while (list)
 	{
 		head = list;
-		if (ft_meta(list->chr) > 0)
+		if (ft_meta(list->token) > 0)
 			i++;
 		list = list->next;
 	}

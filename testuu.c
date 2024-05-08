@@ -1,12 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef struct t_lexer {
-    char *token;
-    struct t_lexer *next;
-} t_lexer;
-
+#include "minishell.h"
 
 void free_list(t_lexer *list) {
     while (list != NULL) {
@@ -30,6 +25,7 @@ void add_token(t_lexer **list, char *token) {
         fprintf(stderr, "Erreur d'allocation mémoire\n");
         exit(EXIT_FAILURE);
     }
+    // strtrim
     new_token->token = strdup(token);
     new_token->next = NULL;
 
@@ -47,33 +43,37 @@ void add_token(t_lexer **list, char *token) {
 void tokenize(char *cmd, t_lexer **list) {
     char *token_start = cmd;
     char *current = cmd;
-    char buffer[3] = {0};
 
     while (*current != '\0') {
         if (strncmp(current, "<<", 2) == 0 || strncmp(current, ">>", 2) == 0) {
+
+            if (current != token_start) {
+                current--;
+                *current = '\0';
+                current++;
+                add_token(list, token_start);
+            }
 			if(strncmp(current, "<<", 2) == 0)
 				add_token(list, "<<");
 			if(strncmp(current, ">>", 2) == 0)
 				add_token(list, ">>");
-            if (current != token_start) {
-                *current = '\0';
-            }
 
             current += 2; 
             token_start = current;
         }
 
         else if (*current == '<' || *current == '>') {
+            if (current != token_start) {
+                current--;
+                *current = '\0';
+                current++;
+                add_token(list, token_start);
+            }
 			if(strncmp(current, ">", 1) == 0)
 				add_token(list, ">");
 			if(strncmp(current, "<", 1) == 0)
 				add_token(list, "<");
-            if (current != token_start) {
-                *current = '\0';
-                add_token(list, token_start);
-            }
-            buffer[0] = *current; 
-            add_token(list, buffer); 
+
             current++; 
             token_start = current;
         }

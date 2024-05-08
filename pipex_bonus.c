@@ -12,20 +12,56 @@
 
 #include "minishell.h"
 
+int	ft_meta_str(char c)
+{
+	if (c == '<')
+		return (1);
+	else if (c == '>')
+		return (2);
+	else
+		return (0);
+}
+
+int	list_parkour_str(char *list)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (list)
+	{
+		if (ft_meta_str(*list) > 0)
+		{
+			i++;
+		}
+		list++;
+		if (i >= 1)
+			return (i);
+	}
+	return (i);
+}
+
 static void	exec(char *cmd, char **envp)
 {
 	char	**s_cmd;
 	char	*path;
 
-	s_cmd = ft_split(cmd, ' ');
-	if (!s_cmd)
-		exit(EXIT_FAILURE);
-	path = get_path(*s_cmd, envp);
-	if (!path)
-		exit(EXIT_FAILURE);
-	execve(path, s_cmd, envp);
-	//if (execve(path, s_cmd, envp) == -1)
-		//exit(EXIT_FAILURE);
+	printf("jaaa\n");
+	if (list_parkour_str(cmd) >= 1)
+		ft_meta_mgmt(cmd, envp);
+	else
+	{
+		s_cmd = ft_split(cmd, ' ');
+		if (!s_cmd)
+			exit(EXIT_FAILURE);
+		path = get_path(*s_cmd, envp);
+		if (!path)
+			exit(EXIT_FAILURE);
+		execve(path, s_cmd, envp);
+		//if (execve(path, s_cmd, envp) == -1)
+			//exit(EXIT_FAILURE);
+	}
 }
 
 static void	here_txt(char **argv, int *p_fd)

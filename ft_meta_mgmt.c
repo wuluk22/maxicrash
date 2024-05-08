@@ -45,67 +45,51 @@ void tokenize(char *cmd, t_lexer **list) {
     char *current = cmd;
 
     while (*current != '\0') {
-        if (*current == '\'' || *current == '"') {
-            char quote = *current;
-            current++;
-            while (*current != '\0' && *current != quote) {
-                current++;
-            }
-            if (*current == '\0') {
-                fprintf(stderr, "Erreur: guillemet non fermé\n");
-                exit(EXIT_FAILURE);
-            }
-            current++;
-        } else if (*current == '<' || *current == '>' || (*current == '&' && *(current + 1) == '>')) {
+        if (strncmp(current, "<<", 2) == 0 || strncmp(current, ">>", 2) == 0) {
+
             if (current != token_start) {
+                current--;
                 *current = '\0';
+                current++;
                 add_token(list, token_start);
             }
-            char *next_token_start = current;
-            if (*current == '&' && *(current + 1) == '>') {
-                current += 2;
-            } else {
-                current++;
-            }
-            add_token(list, next_token_start);
+			if(strncmp(current, "<<", 2) == 0)
+				add_token(list, "<<");
+			if(strncmp(current, ">>", 2) == 0)
+				add_token(list, ">>");
+
+            current += 2; 
             token_start = current;
-        } else if (*current == ' ') {
+        }
+
+        else if (*current == '<' || *current == '>') {
             if (current != token_start) {
+                current--;
                 *current = '\0';
+                current++;
                 add_token(list, token_start);
             }
-            current++;
+			if(strncmp(current, ">", 1) == 0)
+				add_token(list, ">");
+			if(strncmp(current, "<", 1) == 0)
+				add_token(list, "<");
+
+            current++; 
             token_start = current;
-        } else {
+        }
+
+        else {
             current++;
         }
     }
+
 
     if (current != token_start) {
         add_token(list, token_start);
     }
 }
 
-int main() {
-    char cmd[] = "echo 'hello world' > g.txt >> u.txt";
-
-    t_lexer *list = NULL;
-
-    tokenize(cmd, &list);
-
-    // Afficher la liste chaînée
-    print_list(list);
-
-    // Libérer la mémoire de la liste chaînée
-    free_list(list);
-
-    return 0;
-}
-
-
-
-
-static int	ft_meta_str(char *c)
+/*static int	ft_meta_str(char *c)
 {
 	if (strcmp(c, "<") == 0)
 		return (1);
@@ -134,10 +118,11 @@ static int	list_parkour_str(char *list)
 		printf("list---%s\n", list);
 	}
 	return (i);
-}
+}*/
 
 void	ft_meta_mgmt(char *cmd, char **envp)
 {
+	printf("---cmd---%s\n", cmd);
 	char	*arg1;
 	char	*arg2;
 	char	*meta;
@@ -149,44 +134,38 @@ void	ft_meta_mgmt(char *cmd, char **envp)
 	t_lexer	*list;
 
 	list = NULL;
-	list = ((t_lexer *)malloc(sizeof(t_lexer)));
-	list->str = NULL;
 
 	char	*args[2];
 
 	(void)envp;
-	if (list_parkour_str(cmd) >= 1)
+	//printf("2-2\n");
+	tokenize(cmd, &list);
+	//printf("1-1\n");
+	print_list(list);
+	if (list_parkour(list) >= 1)
 	{
-		while (cmd[i])
+		printf("1\n");
+		while (list)
 		{
-			while (cmd[i] != )
+			printf("2\n");
+			if (list && ft_meta(list->token) == 0)
 			{
 				//printf("jaaaaa\n");
 				if (!arg1)
-					arg1 = list->str;
-				else
-				{
-					arg1 = ft_strjoin(arg1, " ");
-					arg1 = ft_strjoin(arg1, list->str);
-				}
+					arg1 = list->token;
 				list = list->next;
 			}
-			//printf("----%s----\n", arg1);
-			if (list && ft_meta(list->chr) > 0)
+			printf("----%s----\n", arg1);
+			if (list && ft_meta(list->token) > 0)
 			{
-				meta = list->chr;
+				meta = list->token;
 				list = list->next;
-				//printf("--%s\n", list->str);
+				printf("--%s\n", meta);
 			}
-			while (list && ft_meta(list->chr) == 0)
+			if (list && ft_meta(list->token) == 0)
 			{
 				if (!arg2)
-					arg2 = list->str;
-				else
-				{
-					arg2 = ft_strjoin(arg2, " ");
-					arg2 = ft_strjoin(arg2, list->str);
-				}
+					arg2 = list->token;
 				list = list->next;
 			}
 			args[0] = arg1;

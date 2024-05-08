@@ -101,6 +101,9 @@ int	open_file(char *file, int in_out, char **argv, char **envp);
 char	*ft_strnstr(const char *find, const char *to_find, size_t len);
 
 void		ft_meta_mgmt(char *cmd, char **envp);
+int	ft_meta_str(char c);
+int	list_parkour_str(char *list);
+
 
 
 
