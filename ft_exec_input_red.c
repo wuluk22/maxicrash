@@ -68,7 +68,8 @@ void	ft_input(char *args[], char *envp[])
 {
 	t_pipex	redir;
 
-	redir.infile = open(args[1], O_RDONLY);
+	if (open(args[2], O_RDONLY))
+		redir.infile = open(args[2], O_RDONLY);
 	redir.outfile = 1;
 	if (pipe(redir.tube) < 0)
 	{

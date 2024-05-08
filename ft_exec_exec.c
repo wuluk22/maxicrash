@@ -81,17 +81,17 @@ int	list_parkour(t_lexer *list)
 	return (i);
 }
 
-void	ft_first_iter(char *args[], char *meta, char *envp[])
+void	ft_first_iter(char *args[], char *envp[])
 {
-	if (ft_meta(meta) == 1)
+	if (ft_meta(args[1]) == 1)
 		ft_pipex(3, args, envp);
-	else if (ft_meta(meta) == 2)
+	else if (ft_meta(args[1]) == 2)
 		ft_input(args, envp);
-	else if (ft_meta(meta) == 3)
+	else if (ft_meta(args[1]) == 3)
 		ft_redir(args, envp);
-	else if (ft_meta(meta) == 4)
+	else if (ft_meta(args[1]) == 4)
 		ft_heredoc(args, envp);
-	else if (ft_meta(meta) == 5)
+	else if (ft_meta(args[1]) == 5)
 		ft_append(args, envp);
 }
 

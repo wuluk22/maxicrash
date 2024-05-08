@@ -79,7 +79,7 @@ typedef struct s_list
 void		command_executer(char **args, char **envp, t_lexer *list, t_pipex exec);
 void		ft_multi_pipe(int argc, char **argv, char **envp);
 char		*get_path(char *cmd, char **envp);
-void		ft_first_iter(char *args[], char *meta, char *envp[]);
+void		ft_first_iter(char *args[], char *envp[]);
 int			ft_meta(char *c);
 int			list_parkour(t_lexer *list);
 void		execute_command(char **envp, char *args, t_pipex exec);
@@ -87,6 +87,8 @@ void		ft_redir(char *args[], char *envp[]);
 void		ft_input(char *args[], char *envp[]);
 void		ft_append(char *args[], char *envp[]);
 void		ft_heredoc(char *args[], char *envp[]);
+char	*ft_strtrim_str(char *s1, char *set);
+
 
 int			found_newline(t_list *list);
 t_list		*find_last_node(t_list *list);

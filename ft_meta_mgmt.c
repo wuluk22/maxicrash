@@ -4,6 +4,37 @@
 
 #include "minishell.h"
 
+
+int	ft_meta_str(char c)
+{
+	if (c == '<')
+		return (1);
+	else if (c == '>')
+		return (2);
+	else
+		return (0);
+}
+
+int	list_parkour_str(char *list)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (list)
+	{
+		if (ft_meta_str(*list) > 0)
+		{
+			i++;
+		}
+		list++;
+		if (i >= 1)
+			return (i);
+	}
+	return (i);
+}
+
 void add_token(t_lexer **list, char *token) {
     t_lexer *new_token = (t_lexer *)malloc(sizeof(t_lexer));
     if (new_token == NULL) {
@@ -50,7 +81,7 @@ void tokenize(char *cmd, t_lexer **list) {
             if (current != token_start) {
                 current--;
                 *current = '\0';
-                current++;
+                current++;	
                 add_token(list, token_start);
             }
 			if(strncmp(current, "<<", 2) == 0)
@@ -123,19 +154,16 @@ static int	list_parkour_str(char *list)
 void	ft_meta_mgmt(char *cmd, char **envp)
 {
 	printf("---cmd---%s\n", cmd);
-	char	*arg1;
-	char	*arg2;
-	char	*meta;
 	int		i;
 
-	arg1 = NULL;
-	arg2 = NULL;
 	i = 0;
 	t_lexer	*list;
 
 	list = NULL;
 
-	char	*args[2];
+	char	*args[100]; // max files ??? 
+	int		arg_count;
+	arg_count = 0;
 
 	(void)envp;
 	//printf("2-2\n");
@@ -144,35 +172,24 @@ void	ft_meta_mgmt(char *cmd, char **envp)
 	print_list(list);
 	if (list_parkour(list) >= 1)
 	{
-		printf("1\n");
 		while (list)
 		{
-			printf("2\n");
 			if (list && ft_meta(list->token) == 0)
 			{
 				//printf("jaaaaa\n");
-				if (!arg1)
-					arg1 = list->token;
+				if (arg_count <= 100)
+					args[arg_count++] = list->token;
 				list = list->next;
 			}
-			printf("----%s----\n", arg1);
-			if (list && ft_meta(list->token) > 0)
+			else if (list && ft_meta(list->token) > 0)
 			{
-				meta = list->token;
-				list = list->next;
-				printf("--%s\n", meta);
-			}
-			if (list && ft_meta(list->token) == 0)
-			{
-				if (!arg2)
-					arg2 = list->token;
+				list->chr = "m";
+				args[arg_count++] = list->token;
 				list = list->next;
 			}
-			args[0] = arg1;
-			args[1] = arg2;
-			printf("yooo----%s----%s----\n", args[0], args[1]);
-			ft_first_iter(args, meta, envp);
-
+			printf("arg%d = %s\n", i, args[i]);
+			i++;
 		}
+		ft_first_iter(args, envp);
 	}
 }
