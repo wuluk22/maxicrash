@@ -19,9 +19,9 @@ static void	exec(char *cmd, char **envp)
 	char	*path;
 
 	printf("jaaa\n");
+	//if (list_parkour_str(cmd) >= 1)
+		//ft_meta_mgmt(cmd, envp);
 	if (list_parkour_str(cmd) >= 1)
-		ft_meta_mgmt(cmd, envp);
-	else
 	{
 		s_cmd = ft_split(cmd, ' ');
 		if (!s_cmd)
@@ -29,6 +29,7 @@ static void	exec(char *cmd, char **envp)
 		path = get_path(*s_cmd, envp);
 		if (!path)
 			exit(EXIT_FAILURE);
+		printf("------%s\n", *s_cmd);
 		execve(path, s_cmd, envp);
 		//if (execve(path, s_cmd, envp) == -1)
 			//exit(EXIT_FAILURE);
@@ -88,6 +89,7 @@ static void	ft_pipe(char *cmd, char **envp, int nb, int argc)
 	if (pipe(p_fd) == -1)
 		exit(1);
 	//sig ignore
+	ft_set_input_signals();
 	pid = fork();
 	printf("pid %d\n", pid);
 	if (pid == -1)

@@ -74,6 +74,16 @@ typedef struct s_list
 	struct s_list	*next;
 }				t_list;
 
+typedef struct s_cmds
+{
+	char                    **str;
+	int                     num_red;
+	char                    *hd_file_name;
+	t_lexer                 *redirect;
+	struct s_cmds	*next;
+	struct s_cmds	*prev;
+}	t_cmds;
+
 //void		rl_replace_line(const char *text, int clear_undo);
 //-------------------------------EXECUTION--------------------------------//
 void		command_executer(char **args, char **envp, t_lexer *list, t_pipex exec);

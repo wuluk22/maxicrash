@@ -24,9 +24,7 @@ NAME    = minishell
 SRC     = minishell.c\
             ft_lexer.c\
             ft_free.c\
-			ft_lst_add_back.c\
-			ft_lst_last.c\
-			ft_lst_new.c\
+			ft_lst.c\
 			ft_signals.c\
 			ft_str_utils.c\
 			ft_lex_lexer.c\

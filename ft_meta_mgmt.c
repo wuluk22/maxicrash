@@ -138,6 +138,8 @@ void tokenize(char *cmd, t_lexer **list) {
 		return (3);
 	if (strcmp(c, ">>") == 0)
 		return (4);
+	if (strcmp(c, "|") == 0)
+		return (5);
 	else
 		return (0);
 }

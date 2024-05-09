@@ -13,29 +13,7 @@
 #include "minishell.h"
 #include <readline/readline.h>
 
-/*static t_lexer	*ft_parser(t_lexer *list)
-{
-	t_lexer	*head;
 
-	head = NULL;
-	while (list)
-	{
-		if ((ft_strncmp(list->str, "$", 1) == 0) && (!list->str[1]))
-		{
-			list = list->next;
-			if (ft_strncmp(list->next->str, "=", 1) == 0)
-			{
-				list->chr = "n";
-				list = list->next->next;
-				list->chr = "e";
-			}
-			else
-				list->chr = "E";
-		}
-		list = list->next;
-	}
-	return (head);
-}*/
 
 void	minishell_loop(char *line, char **envp)
 {
@@ -53,6 +31,7 @@ void	minishell_loop(char *line, char **envp)
 //	signal(SIGCHLD, SIG_IGN);
 	while (1)
 	{
+		ft_set_input_signals();
 		line = readline("minishell>>");
 		if (!line)
 			break ;

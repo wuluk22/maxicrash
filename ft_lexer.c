@@ -114,3 +114,26 @@ t_pipex	ft_dispatch(t_pipex exec, char *arg)
 	}
 	return (exec);
 }
+/*static t_lexer	*ft_parser(t_lexer *list)
+{
+	t_lexer	*head;
+
+	head = NULL;
+	while (list)
+	{
+		if ((ft_strncmp(list->str, "$", 1) == 0) && (!list->str[1]))
+		{
+			list = list->next;
+			if (ft_strncmp(list->next->str, "=", 1) == 0)
+			{
+				list->chr = "n";
+				list = list->next->next;
+				list->chr = "e";
+			}
+			else
+				list->chr = "E";
+		}
+		list = list->next;
+	}
+	return (head);
+}*/

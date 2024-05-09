@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clegros <clegros@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 16:45:22 by clegros           #+#    #+#             */
-/*   Updated: 2023/10/19 14:23:29 by clegros          ###   ########.fr       */
+/*   Created: 2023/10/15 17:15:58 by clegros           #+#    #+#             */
+/*   Updated: 2023/10/15 21:49:33 by clegros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_lstadd_back(t_lexer **lst, t_lexer *new)
+{
+	t_lexer	*tmp;
+
+	if (!lst || !new)
+		return ;
+	if (*lst == NULL)
+		*lst = new;
+	else
+	{
+		tmp = ft_lstlast(*lst);
+		tmp->next = new;
+	}
+}
 
 t_lexer	*ft_lstlast(t_lexer *lst)
 {
@@ -25,19 +40,15 @@ t_lexer	*ft_lstlast(t_lexer *lst)
 	return (NULL);
 }
 
-/*int main(void)
+t_lexer	*ft_lstnew(void *content)
 {
-    t_list *my_list = ft_lstnew("Node 1");
-    ft_lstadd_back(&my_list, ft_lstnew("Node 2"));
-    ft_lstadd_back(&my_list, ft_lstnew("Node 3"));
+	t_lexer	*new;
 
-    t_list *last_element = ft_lstlast(my_list);
+	new = (t_lexer *)malloc(sizeof(*new));
+	if (new == NULL)
+		return (NULL);
+	new->str = content;
+	new->next = NULL;
+	return (new);
+}
 
-    if (last_element != NULL)
-        printf("Last element: %s\n", (char *)(last_element->content));
-    else
-        printf("List is empty.\n");
-
-    ft_lstclear(&my_list, free);
-    return (0);
-}*/

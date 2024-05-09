@@ -81,7 +81,7 @@ int	list_parkour(t_lexer *list)
 	return (i);
 }
 
-static int	list_parkour_init(t_lexer *list)
+/*static int	list_parkour_init(t_lexer *list)
 {
 	t_lexer	*head;
 	int		i;
@@ -97,7 +97,7 @@ static int	list_parkour_init(t_lexer *list)
 	}
 	list = head;
 	return (i);
-}
+}*/
 
 void	ft_first_iter(char *args[], char *envp[])
 {
@@ -126,24 +126,6 @@ int	ft_stacklen(t_lexer *list)
 	return (i);
 }
 
-void	command_executer(char **args, char **envp, t_lexer *list, t_pipex exec)
-{
-	int	i;
-
-	i = 0;
-
-	if(list_parkour_init(list) > 0)
-	{
-		while (args[i])
-			i++;
-		ft_multi_pipe(i, args, envp);
-	}
-	else
-		execute_command(envp, list->str, exec);
-}
-
-
-
 /*static int	list_parkour_str_v(char **list)
 {
 	int	i;
@@ -153,22 +135,47 @@ void	command_executer(char **args, char **envp, t_lexer *list, t_pipex exec)
 	i = 0;
 	j = 0;
 	meta = 0;
-	while (**list != '\0')
+	while (*list != NULL)
 	{
-		if (ft_meta_str(**list) > 0)
+		if (ft_meta(*list) > 0)
 		{
-			if (ft_meta_str(**list) == 1)
+			if (ft_meta(*list) == 1)
 				meta = 1;
-			else if (ft_meta_str(**list) == 2)
+			else if (ft_meta(*list) == 2)
 				meta = 2;
-			else if (ft_meta_str(**list) == 3)
+			else if (ft_meta(*list) == 3)
 				meta = 3;
 			i++;
 		}
 		list++;
 	}
-	return (meta);
+	return (i);
+}*/
+void	command_executer(char **args, char **envp, t_lexer *list, t_pipex exec)
+{
+	int	i;
+
+	i = 0;
+
+	while(args[i])
+	{
+		printf("----%s\n", args[i]);
+		i++;
+	}
+	if(i > 1)
+	{
+		i = 0;
+		printf("aaaa\n");
+		while (args[i])
+			i++;
+		ft_multi_pipe(i, args, envp);
+	}
+	else
+		execute_command(envp, list->str, exec);
 }
+
+
+/*
 
 static int	list_parkour_strstr(char **list)
 {
