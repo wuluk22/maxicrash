@@ -18,10 +18,11 @@ static void	exec(char *cmd, char **envp)
 	char	**s_cmd;
 	char	*path;
 
-	printf("jaaa\n");
 	//if (list_parkour_str(cmd) >= 1)
 		//ft_meta_mgmt(cmd, envp);
 	if (list_parkour_str(cmd) >= 1)
+		ft_meta_mgmt(cmd, envp);
+	else
 	{
 		s_cmd = ft_split(cmd, ' ');
 		if (!s_cmd)
@@ -29,7 +30,7 @@ static void	exec(char *cmd, char **envp)
 		path = get_path(*s_cmd, envp);
 		if (!path)
 			exit(EXIT_FAILURE);
-		printf("------%s\n", *s_cmd);
+	//printf("------%s\n", *s_cmd);
 		execve(path, s_cmd, envp);
 		//if (execve(path, s_cmd, envp) == -1)
 			//exit(EXIT_FAILURE);
@@ -89,15 +90,14 @@ static void	ft_pipe(char *cmd, char **envp, int nb, int argc)
 	if (pipe(p_fd) == -1)
 		exit(1);
 	//sig ignore
-	ft_set_input_signals();
 	pid = fork();
-	printf("pid %d\n", pid);
+//	printf("pid %d\n", pid);
 	if (pid == -1)
 		exit(1);
 	if (!pid)
 	{
 		close(p_fd[0]);
-		printf("1\n");
+		//printf("1\n");
 
 		if (nb <= argc - 2) {
 			dup2(p_fd[1], 1);
@@ -107,12 +107,12 @@ static void	ft_pipe(char *cmd, char **envp, int nb, int argc)
 	}
 	else
 	{
-		write(2, "caca\n", 5);
+		//write(2, "caca\n", 5);
 		close(p_fd[1]);
 		dup2(p_fd[0], 0);
 		wait(0);
 	}
-	//wait(0);
+	wait(0);
 	//close pipe and waitpid 
 }
 
@@ -144,7 +144,7 @@ void	ft_multi_pipe(int argc, char **argv, char **envp)
 	}
 
 	while (i < argc) {
-		write(2, "test\n", 5);
+		//write(2, "test\n", 5);
 		ft_pipe(argv[i], envp, i, argc);
 		i++;
 	}

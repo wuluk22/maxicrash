@@ -179,7 +179,7 @@ void	ft_meta_mgmt(char *cmd, char **envp)
 	//printf("2-2\n");
 	tokenize(cmd, &list);
 	//printf("1-1\n");
-	print_list(list);
+	//print_list(list);
 	if (list_parkour(list) >= 1)
 	{
 		while (list)
@@ -197,7 +197,7 @@ void	ft_meta_mgmt(char *cmd, char **envp)
 				args[arg_count++] = list->token;
 				list = list->next;
 			}
-			printf("arg%d = %s\n", i, args[i]);
+			//printf("arg%d = %s\n", i, args[i]);
 			i++;
 		}
 		ft_first_iter(args, envp);

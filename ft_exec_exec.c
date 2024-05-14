@@ -34,33 +34,33 @@ void	execute_command(char **envp, char *args, t_pipex exec)
 	int		status;
 	char	**arg;
 
-	if (list_parkour_str(args) >= 1)
+	/*if (list_parkour_str(args) >= 1)
 		ft_meta_mgmt(args, envp);
 	else
+	{*/
+
+	pid = fork();
+	(void)envp;
+	arg = ft_split(args, ' ');
+	//printf("---%s\n", *arg);
+	if (pid == -1)
 	{
-		pid = fork();
-		(void)envp;
-		arg = ft_split(args, ' ');
-		//printf("---%s\n", *arg);
-		if (pid == -1)
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		while (arg)
 		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0)
-		{
-			while (arg)
+			if (execve(exec.cmd, arg, NULL) == -1)
 			{
-				if (execve(exec.cmd, arg, NULL) == -1)
-				{
-					perror("Error executing command");
-					exit(EXIT_FAILURE);
-				}
+				perror("Error executing command");
+				exit(EXIT_FAILURE);
 			}
 		}
-		else
-			wait(&status);
 	}
+	else
+		wait(&status);
 }
 
 int	list_parkour(t_lexer *list)
@@ -159,13 +159,13 @@ void	command_executer(char **args, char **envp, t_lexer *list, t_pipex exec)
 
 	while(args[i])
 	{
-		printf("----%s\n", args[i]);
+		//printf("----%s\n", args[i]);
 		i++;
 	}
 	if(i > 1)
 	{
 		i = 0;
-		printf("aaaa\n");
+		//printf("aaaa\n");
 		while (args[i])
 			i++;
 		ft_multi_pipe(i, args, envp);
